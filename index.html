@@ -14,9 +14,10 @@
   color-scheme: light;
   --bg:#f7f6f3; --surface:#ffffff; --soft:#f0efec; --line:#e4e2dc;
   --text:#121211; --text-2:#55534f; --muted:#85837d;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#8a8984;
   --good:#0ca30c; --good-ink:#0a7a0a; --good-bg:#e9f6e9;
   --warn:#fab219; --warn-ink:#8a5a00; --warn-bg:#fdf3dc;
+  --bad-ink:#a82b2b; --bad-bg:#fbe9e9;
   --accent:#184f95; --accent-bg:#e6effb;
   --r:16px;
 }
@@ -25,8 +26,8 @@
     color-scheme: dark;
     --bg:#121211; --surface:#1a1a19; --soft:#242422; --line:#33332f;
     --text:#f0efec; --text-2:#c3c2b7; --muted:#9a998f;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-    --good-ink:#6bd96b; --good-bg:#16301a; --warn-ink:#f4c55a; --warn-bg:#352a12;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#9a998f;
+    --good-ink:#6bd96b; --good-bg:#16301a; --warn-ink:#f4c55a; --warn-bg:#352a12; --bad-ink:#ff8f8f; --bad-bg:#3a1c1c;
     --accent:#86b6ef; --accent-bg:#1c2a3f;
   }
 }
@@ -34,47 +35,57 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent)}
-.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
 h1{font-size:clamp(30px,5vw,46px);line-height:1.1;letter-spacing:-.025em;margin:14px 0 14px}
-h2{font-size:24px;letter-spacing:-.015em;margin:0 0 6px}
+h2{font-size:25px;letter-spacing:-.015em;margin:0 0 6px}
 h3{font-size:17px;margin:0 0 4px}
 p{margin:0 0 10px}
-.muted{color:var(--text-2)}
-.small{font-size:14px}
-section{padding:48px 0 0}
+.muted{color:var(--text-2)} .small{font-size:14px}
+section{padding:52px 0 0;scroll-margin-top:60px}
 .kicker{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:2px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--text-2);font-size:14px;font-weight:600;padding:6px 10px;border-radius:8px}
+nav.toc a:hover{background:var(--soft);color:var(--text)}
 
-/* hero */
-header{padding:56px 0 8px}
-.lede{font-size:19px;color:var(--text-2);max-width:700px}
+header{padding:52px 0 8px}
+.lede{font-size:19px;color:var(--text-2);max-width:720px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;background:var(--surface);border:1px solid var(--line)}
-.chip svg{flex:none}
-.chip.ok{background:var(--good-bg);border-color:transparent;color:var(--good-ink)}
-.chip.do{background:var(--warn-bg);border-color:transparent;color:var(--warn-ink)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600}
+.chip.ok{background:var(--good-bg);color:var(--good-ink)} .chip.do{background:var(--warn-bg);color:var(--warn-ink)} .chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px}
-.grid{display:grid;gap:14px}
-.g3{grid-template-columns:repeat(3,1fr)}
-@media (max-width:760px){.g3{grid-template-columns:1fr}}
-
-/* stat row */
+.grid{display:grid;gap:14px} .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
 .stat .k{font-size:13px;font-weight:600;color:var(--text-2)}
 .stat .v{font-size:30px;font-weight:750;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums}
 .stat .v small{font-size:15px;font-weight:600;color:var(--text-2)}
 .stat .n{font-size:13px;color:var(--text-2)}
+.v.bad{color:var(--bad-ink)} .v.ok{color:var(--good-ink)}
+
+.finding{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.finding figure{margin:0} .finding img{width:100%;border-radius:10px;display:block;aspect-ratio:1/1.1;object-fit:cover}
+.finding figcaption{font-size:13px;color:var(--text-2);margin-top:6px}
+@media (max-width:640px){.finding{grid-template-columns:1fr}}
+.callout{border-radius:12px;padding:14px 18px;margin-top:14px;font-size:15px}
+.callout.warn{background:var(--warn-bg)} .callout.ok{background:var(--good-bg)} .callout.info{background:var(--accent-bg)}
+
+/* status table */
+.status{width:100%;border-collapse:collapse;font-size:15px}
+.status td{padding:11px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.status td:first-child{width:118px}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.b-done{background:var(--good-bg);color:var(--good-ink)} .b-draft{background:var(--accent-bg);color:var(--accent)} .b-owner{background:var(--warn-bg);color:var(--warn-ink)}
 
 /* steps */
 .steps{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px;counter-reset:s}
 .step{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;counter-increment:s;transition:opacity .2s}
 .step .num{width:36px;height:36px;border-radius:50%;background:var(--accent-bg);color:var(--accent);display:grid;place-items:center;font-weight:750}
 .step .num::before{content:counter(s)}
-.step.done{opacity:.55}
-.step.done .num{background:var(--good);color:#fff}
-.step.done .num::before{content:"✓"}
+.step.done{opacity:.55} .step.done .num{background:var(--good);color:#fff} .step.done .num::before{content:"✓"}
 .step .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--text-2)}
-.tag.hot{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.hot{background:var(--warn-bg);color:var(--warn-ink)} .tag.ok{background:var(--good-bg);color:var(--good-ink)}
 .step p{margin:2px 0 0;color:var(--text-2);font-size:15px}
 .step ul{margin:6px 0 0;padding-left:18px;color:var(--text-2);font-size:15px}
 .step label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2);cursor:pointer;white-space:nowrap}
@@ -82,7 +93,7 @@ header{padding:56px 0 8px}
 @media (max-width:560px){.step{grid-template-columns:36px 1fr}.step label{grid-column:2}}
 
 /* chart */
-.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin:14px 0 6px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin:6px 0 6px}
 .seg button{font:inherit;font-size:14px;font-weight:600;border:0;background:none;color:var(--text-2);padding:8px 14px;border-radius:9px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .bar{position:relative;height:44px;margin:34px 0 6px}
@@ -92,145 +103,179 @@ header{padding:56px 0 8px}
 .limit{position:absolute;top:-10px;bottom:-10px;width:2px;background:var(--text)}
 .limit span{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;white-space:nowrap}
 .ticks{position:relative;height:18px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
-.ticks span{position:absolute;top:3px;transform:translateX(-50%);white-space:nowrap}
-.ticks span:first-child{transform:none}
+.ticks span{position:absolute;top:3px;transform:translateX(-50%);white-space:nowrap} .ticks span:first-child{transform:none}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--text-2);margin-top:10px}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .result{margin-top:14px;padding:12px 16px;border-radius:12px;font-size:15px}
-.result.ok{background:var(--good-bg)}
-.result.no{background:var(--warn-bg)}
+.result.ok{background:var(--good-bg)} .result.no{background:var(--bad-bg)}
 .tip{position:fixed;pointer-events:none;background:var(--text);color:var(--bg);font-size:13px;padding:7px 10px;border-radius:8px;opacity:0;transition:opacity .1s;z-index:9}
 
-/* costs */
-table{width:100%;border-collapse:collapse;font-size:15px}
-td,th{padding:10px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+.gallery figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.gallery figure.wide{grid-column:1/-1}
+.gallery a{display:block;background:#fff}
+.gallery img{width:100%;display:block}
+.gallery figcaption{padding:12px 16px;font-size:14px;color:var(--text-2)}
+.gallery figcaption b{color:var(--text)}
+@media (max-width:700px){.gallery{grid-template-columns:1fr}}
+
+/* best practice */
+.bp{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+@media (max-width:700px){.bp{grid-template-columns:1fr}}
+.bp article{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.bp img{width:100%;height:220px;object-fit:cover;display:block}
+.bp .body{padding:16px 18px 18px}
+.bp .body ul{margin:6px 0 0;padding-left:18px;color:var(--text-2);font-size:15px}
+.bp .credit{font-size:11px;color:var(--muted);margin-top:8px}
+.req{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin-bottom:8px}
+.req.law{background:var(--bad-bg);color:var(--bad-ink)} .req.twp{background:var(--warn-bg);color:var(--warn-ink)} .req.rec{background:var(--good-bg);color:var(--good-ink)}
+
+/* tables, email, details */
+table.t{width:100%;border-collapse:collapse;font-size:15px}
+table.t td,table.t th{padding:10px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.t th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
 td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.total td{font-weight:700;border-bottom:0}
-
-/* email */
-.email pre{white-space:pre-wrap;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--soft);border-radius:12px;padding:18px;margin:12px 0 0;max-height:420px;overflow:auto}
+.email pre{white-space:pre-wrap;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--soft);border-radius:12px;padding:18px;margin:12px 0 0;max-height:440px;overflow:auto}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
 .btn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:9px 14px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 @media (prefers-color-scheme: dark){.btn.primary{color:#0b0b0b}}
-
-/* details */
 details.more{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-top:10px}
 details.more summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:650;display:flex;justify-content:space-between;align-items:center}
 details.more summary::-webkit-details-marker{display:none}
 details.more summary::after{content:"+";font-size:20px;color:var(--muted);font-weight:400}
 details.more[open] summary::after{content:"–"}
 details.more .in{padding:0 20px 18px;color:var(--text-2);font-size:15px}
-details.more ul{margin:6px 0 10px;padding-left:18px}
-details.more li{margin:3px 0}
+details.more ul{margin:6px 0 10px;padding-left:18px} details.more li{margin:3px 0}
 .calc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
 .calc input{font:inherit;font-size:18px;width:100%;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--text)}
 .calc label{font-size:13px;font-weight:600}
 .out{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.out div{background:var(--soft);border-radius:10px;padding:10px}
-.out b{display:block;font-size:20px;color:var(--text);font-variant-numeric:tabular-nums}
-.out span{font-size:12px}
+.out div{background:var(--soft);border-radius:10px;padding:10px} .out b{display:block;font-size:20px;color:var(--text);font-variant-numeric:tabular-nums} .out span{font-size:12px}
 @media (max-width:560px){.calc,.out{grid-template-columns:1fr}td.r{white-space:normal}}
-.sketch svg{width:100%;height:auto;display:block;max-width:560px}
-
 footer{margin:56px 0 0;padding:24px 0 48px;border-top:1px solid var(--line);font-size:13px;color:var(--text-2)}
-@media print{.seg,.btns,.tip{display:none}details.more{break-inside:avoid}}
+@media print{nav.toc,.seg,.btns,.tip{display:none}details.more,.card,figure{break-inside:avoid}}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<header>
+<header class="wrap">
   <div class="kicker">New single-family home · Bedminster Township, Bucks County, PA</div>
-  <h1>You most likely don't need a stormwater plan or a basin.</h1>
-  <p class="lede">Bedminster's ordinance exempts small amounts of new roof and paving on big lots, and this lot qualifies. What's left is a simple erosion-control plan for construction, a short exemption application, and sensible downspouts.</p>
+  <h1>Two small design changes avoid a stormwater plan.</h1>
+  <p class="lede">As drawn, the project is about 1,000 sf over Bedminster's exemption limit, because aerial photos show the gravel driveway is new. Narrow the driveway to 12 ft and build the deck with gaps over stone, and it drops well under the limit. Then all you need is a simple erosion-control plan and the exemption form. No engineered plan, no basin, no state permit.</p>
   <div class="chips">
-    <span class="chip ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No stormwater site plan (likely)</span>
-    <span class="chip ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No state NPDES permit</span>
-    <span class="chip do"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>Written erosion-control plan needed</span>
+    <span class="chip bad">As drawn: 8,503 sf, ≈1,000 sf over</span>
+    <span class="chip ok">With the fix: 6,615 sf, exempt</span>
+    <span class="chip ok">No state NPDES permit (&lt; 1 acre)</span>
+    <span class="chip do">Written erosion-control plan needed</span>
   </div>
 </header>
 
+<nav class="toc" aria-label="Sections"><div class="wrap">
+  <a href="#found">What we found</a><a href="#done">Done / to do</a><a href="#steps">Steps</a><a href="#maps">Maps &amp; plans</a><a href="#numbers">Numbers</a><a href="#best">Best practices</a><a href="#email">Email</a><a href="#costs">Costs</a><a href="#details">Details</a>
+</div></nav>
+
+<main class="wrap">
+
 <section style="padding-top:28px">
   <div class="grid g3">
-    <div class="card stat"><div class="k">New house, garage &amp; deck</div><div class="v">3,381 <small>sf</small></div><div class="n">Limit for a lot over 5 acres: 7,500 sf</div></div>
-    <div class="card stat"><div class="k">Distance to downhill property line</div><div class="v">≈ 190 <small>ft</small></div><div class="n">Within 200 ft, up to 5,000 sf is allowed</div></div>
-    <div class="card stat"><div class="k">Ground disturbed (estimate)</div><div class="v">≈ 0.35 <small>acre</small></div><div class="n">Over 5,000 sf, so an erosion plan is required. Under 1 acre, so no state permit</div></div>
+    <div class="card stat"><div class="k">Impervious as drawn</div><div class="v bad">8,503 <small>sf</small></div><div class="n">Limit for a lot over 5 acres: 7,500 sf</div></div>
+    <div class="card stat"><div class="k">With 12-ft drive + slatted deck</div><div class="v ok">6,615 <small>sf</small></div><div class="n">885 sf of headroom under the limit</div></div>
+    <div class="card stat"><div class="k">Ground disturbed (estimate)</div><div class="v">≈ 0.56 <small>acre</small></div><div class="n">Over 5,000 sf, so an erosion plan is required. Under 1 acre, so no state permit</div></div>
+  </div>
+</section>
+
+<section id="found">
+  <h2>What the aerial photos show</h2>
+  <p class="muted">Archived aerial imagery (Esri World Imagery Wayback) with the county parcel outline overlaid. The exemption only ignores surfaces built before Oct 19, 2020.</p>
+  <div class="finding">
+    <figure><a href="img/aerial-2011.jpg"><img src="img/aerial-2011.jpg" alt="2011 aerial: lot is a plowed crop field"></a><figcaption><b>March 2011:</b> plowed crop field. No driveway.</figcaption></figure>
+    <figure><a href="img/aerial-2017.jpg"><img src="img/aerial-2017.jpg" alt="2017 aerial: lot is a planted crop field"></a><figcaption><b>July 2017:</b> planted crop field. No driveway, no shed.</figcaption></figure>
+    <figure><a href="img/aerial-2025.jpg"><img src="img/aerial-2025.jpg" alt="2025 aerial: lot is mown grass with a small shed and septic test area"></a><figcaption><b>November 2025:</b> mown grass, a small shed, and the septic test area.</figcaption></figure>
+  </div>
+  <div class="callout warn"><b>So the driveway (≈4,826 sf) and shed (≈296 sf) count.</b> Both appeared after July 2017. Without proof that they predate Oct 19, 2020, they go in the total. That makes 8,503 sf as drawn, ≈1,000 sf over the 7,500 sf exemption limit. The <a href="#numbers">fix</a> is cheap.</div>
+</section>
+
+<section id="done">
+  <h2>What's been done, and what's left to do</h2>
+  <div class="card">
+    <table class="status">
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Confirmed which rules apply.</b> The parcel is in Bedminster Township (county GIS), 8.48 deeded acres, zoned AP (Agricultural Preservation). Stormwater Ordinance No. 239 (effective Oct 19, 2020) governs.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Checked the driveway date.</b> Aerials from 2011, 2017 and 2025 show no driveway or shed before 2017, so they count toward the limit.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Tallied impervious area</b> from the survey: 8,503 sf as drawn, and worked out two fixes that get under 7,500 sf.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Checked the location test (Table 106.2):</b> new buildings are about 190 ft from the downslope road line, with nothing within 100 ft. Passes.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Stream status:</b> the lot drains to Deer Run, then Tohickon Creek. Both are Cold Water Fishes, not HQ/EV, so no extra volume rules. Deer Run is impaired by silt, so erosion control matters.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Slopes:</b> county steep-slope data shows the work area is under 15% (mostly under 8%). The LiDAR contours put the house site at about 7%.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>State thresholds:</b> estimated disturbance is ≈24,000 sf (0.56 ac), so a written E&amp;S plan is required. It's under 1 acre, so no NPDES permit.</td></tr>
+      <tr><td><span class="badge b-done">Done</span></td><td><b>Fees</b> from the township's 2022 schedule (scanned PDF, OCR'd), and <b>contacts</b>.</td></tr>
+      <tr><td><span class="badge b-draft">Drafted</span></td><td><b>Sheet 1: exemption plot plan</b> with the impervious table and the §106 checklist. <a href="permit-sketches-DRAFT.pdf">Download the PDF</a></td></tr>
+      <tr><td><span class="badge b-draft">Drafted</span></td><td><b>Sheet 2: erosion &amp; sediment plan</b>, with the limit of disturbance, silt sock, stone entrance, stockpile, sequence and maintenance. Same PDF.</td></tr>
+      <tr><td><span class="badge b-draft">Drafted</span></td><td><b>Email to the township</b>, updated with these findings (<a href="#email">below</a>).</td></tr>
+      <tr><td><span class="badge b-owner">Owner</span></td><td><b>Pick the fix</b> (12-ft driveway + slatted deck is recommended) and update the drawings.</td></tr>
+      <tr><td><span class="badge b-owner">Owner</span></td><td><b>Add to Sheet 1:</b> the well location, a small location map, and the owner's name, address and parcel number. Double-check the dimensions.</td></tr>
+      <tr><td><span class="badge b-owner">Owner</span></td><td><b>Send the email</b> and get the township's Stormwater Management Application form (it isn't online).</td></tr>
+      <tr><td><span class="badge b-owner">Owner</span></td><td><b>Septic and well permits</b> from the Bucks County Health Department, plus the township sewage management permit.</td></tr>
+      <tr><td><span class="badge b-owner">Owner</span></td><td><b>Build it clean</b> using the best practices below.</td></tr>
+    </table>
   </div>
 </section>
 
 <section id="steps">
   <h2>Five steps to a permit</h2>
-  <p class="muted">Tick them off as you go. Your ticks are saved in this browser only.</p>
-  <ol class="steps" id="steps-list">
-    <li class="step" data-k="drive">
-      <div class="num"></div>
-      <div>
-        <h3>Prove the gravel driveway is older than Oct 19, 2020</h3>
-        <p>This is the one fact that decides everything. If the driveway predates the ordinance, it doesn't count toward the limit.</p>
-        <ul><li>Good proof: closing or deed documents, an old listing, the seller's statement, or dated aerial photos (Google Earth's historical imagery or the county GIS)</li><li>If it's newer, don't worry. See "Not exempt?" below for two cheap fixes.</li></ul>
-        <div class="meta"><span class="tag hot">Decides the path</span><span class="tag">$0</span><span class="tag">~1 hour</span></div>
-      </div>
-      <label><input type="checkbox"> Done</label>
-    </li>
-    <li class="step" data-k="email">
-      <div class="num"></div>
-      <div>
-        <h3>Email the township to confirm the exemption</h3>
-        <p>Use the <a href="#email">ready-made email below</a>. It asks the four questions that matter and requests the forms.</p>
-        <div class="meta"><span class="tag">$0</span><span class="tag">Reply in ~1–2 weeks</span></div>
-      </div>
-      <label><input type="checkbox"> Done</label>
-    </li>
-    <li class="step" data-k="packet">
-      <div class="num"></div>
-      <div>
-        <h3>File the stormwater exemption with the permit package</h3>
-        <ul>
-          <li>Township Stormwater Management Application (3 copies)</li>
-          <li>Plot plan (3 copies) showing the lot lines, buildings with their dimensions and distances to property lines, the well and septic, the contours, drainage arrows, and a north arrow</li>
-          <li>An impervious-area table: house 1,403 · garage 966 · deck 1,012 · driveway 4,813 (existing)</li>
-          <li>The driveway-date proof from step 1</li>
-        </ul>
-        <div class="meta"><span class="tag">$100 application + $500 exemption fee</span><span class="tag">$750 escrow, unused balance refunded</span></div>
-      </div>
-      <label><input type="checkbox"> Done</label>
-    </li>
-    <li class="step" data-k="es">
-      <div class="num"></div>
-      <div>
-        <h3>Draw a one-page erosion &amp; sediment (E&amp;S) plan</h3>
-        <p>State law requires a written plan whenever more than 5,000 sf of ground is disturbed. For one house, a marked-up site plan with short notes is enough. <a href="#es">What to show</a></p>
-        <div class="meta"><span class="tag">DIY</span><span class="tag">Keep a copy on site</span><span class="tag">County review $250, only if the township asks</span></div>
-      </div>
-      <label><input type="checkbox"> Done</label>
-    </li>
-    <li class="step" data-k="build">
-      <div class="num"></div>
-      <div>
-        <h3>Build it clean</h3>
-        <ul>
-          <li>Before digging: call 811 (PA One Call), lay silt sock along the downhill edge, and put a stone pad at the driveway</li>
-          <li>Send roof downspouts to lawn or a rain garden. The township requires this (Ord. 239 §802)</li>
-          <li>Send the sump or footing drain to a swale or natural drainage path, never toward the septic</li>
-          <li>Seed and mulch bare soil quickly, and keep total disturbance well under 1 acre</li>
-        </ul>
-        <div class="meta"><span class="tag">During construction</span></div>
-      </div>
-      <label><input type="checkbox"> Done</label>
-    </li>
+  <p class="muted">Tick them off as you go. Ticks are saved in this browser only.</p>
+  <ol class="steps">
+    <li class="step" data-k="fix"><div class="num"></div><div>
+      <h3>Choose the design fix</h3>
+      <p>The recommended fix gets 885 sf of headroom under 7,500:</p>
+      <ul><li><b>Driveway 12 ft wide</b> instead of about 14.6 ft (saves ≈876 sf)</li><li><b>Deck with gapped boards and no roof, over a stone bed</b>. Under Ord. 239 §202, a deck built to let water soak in isn't counted (saves 1,012 sf)</li><li>Alternative without the deck change: a 10-ft driveway gives 6,967 sf</li></ul>
+      <div class="meta"><span class="tag hot">Decides the path</span><span class="tag">$0 (may save money)</span></div></div>
+      <label><input type="checkbox"> Done</label></li>
+    <li class="step" data-k="email"><div class="num"></div><div>
+      <h3>Email the township to confirm</h3>
+      <p>The <a href="#email">ready-made email</a> lays out the numbers and asks the township to confirm the exemption, the deck treatment, and whether they want county E&amp;S review.</p>
+      <div class="meta"><span class="tag">$0</span><span class="tag">Reply in ~1–2 weeks</span></div></div>
+      <label><input type="checkbox"> Done</label></li>
+    <li class="step" data-k="packet"><div class="num"></div><div>
+      <h3>File the exemption with the permit package</h3>
+      <ul><li>Township Stormwater Management Application (3 copies)</li><li>Sheet 1 plot plan (3 copies). The <a href="permit-sketches-DRAFT.pdf">draft is ready</a>. Add the well, a location map and the owner info</li></ul>
+      <div class="meta"><span class="tag">$100 application + $500 exemption</span><span class="tag">$750 escrow, refundable</span></div></div>
+      <label><input type="checkbox"> Done</label></li>
+    <li class="step" data-k="es"><div class="num"></div><div>
+      <h3>Finalize the erosion &amp; sediment plan</h3>
+      <p>Sheet 2 is drafted. Add a name and date, check it in the field, and keep a copy on site. County review ($250) only if the township asks.</p>
+      <div class="meta"><span class="tag">DIY</span><span class="tag">Required by state law</span></div></div>
+      <label><input type="checkbox"> Done</label></li>
+    <li class="step" data-k="build"><div class="num"></div><div>
+      <h3>Build it clean</h3>
+      <p>Follow the <a href="#best">best practices</a>: silt sock, stone entrance, downspouts to lawn or a rain garden, sump to a swale, and quick seeding.</p>
+      <div class="meta"><span class="tag">During construction</span></div></div>
+      <label><input type="checkbox"> Done</label></li>
   </ol>
 </section>
 
-<section id="why">
-  <h2>Why it's likely exempt</h2>
-  <p class="muted">Bedminster Ordinance 239, §106: on a lot over 5 acres, up to 7,500 sf of new impervious surface is exempt from a stormwater site plan and peak-rate controls. Pick a scenario:</p>
+<section id="maps">
+  <h2>Maps &amp; plans</h2>
+  <p class="muted">Click any image to open it full size. Made from the owner's survey (CAD), county GIS parcels, LiDAR contours, USGS stream data and archived aerial imagery. Alignment is approximate (±5 m).</p>
+  <div class="gallery">
+    <figure class="wide"><a href="img/site-overlay-2025.jpg"><img src="img/site-overlay-2025.jpg" alt="Proposed buildings, driveway and septic areas overlaid on 2025 aerial with setback bands"></a><figcaption><b>Proposed layout on the 2025 aerial.</b> The house, garage and deck (blue) sit about 190 ft from the road. Driveway in yellow, septic test areas in green, 100-ft and 200-ft setback bands, and blue arrows for runoff direction.</figcaption></figure>
+    <figure class="wide"><a href="img/site-plan.png"><img src="img/site-plan.png" alt="Site plan with 2-ft contours and setback lines"></a><figcaption><b>Site plan with 2-ft LiDAR contours.</b> The ground falls about 7% from the house site toward the road (elev. ~378 to ~360).</figcaption></figure>
+    <figure><a href="img/drainage-map.jpg"><img src="img/drainage-map.jpg" alt="Drainage map showing the lot draining to Deer Run"></a><figcaption><b>Where the water goes:</b> lot → Deer Run → Tohickon Creek → Delaware River.</figcaption></figure>
+    <figure><a href="img/house-plans.png"><img src="img/house-plans.png" alt="House floor plans, sections and elevations"></a><figcaption><b>House design:</b> plans, sections and elevations from the owner's CAD file.</figcaption></figure>
+    <figure><a href="img/sheet1-plot-plan.png"><img src="img/sheet1-plot-plan.png" alt="Draft exemption plot plan sheet"></a><figcaption><b>Sheet 1 (draft):</b> stormwater exemption plot plan, with the impervious table and the §106 checklist.</figcaption></figure>
+    <figure><a href="img/sheet2-es-plan.png"><img src="img/sheet2-es-plan.png" alt="Draft erosion and sediment control plan sheet"></a><figcaption><b>Sheet 2 (draft):</b> erosion &amp; sediment control plan with the construction sequence.</figcaption></figure>
+  </div>
+  <p class="small" style="margin-top:12px"><a class="btn" href="permit-sketches-DRAFT.pdf">Download both sheets (PDF)</a></p>
+</section>
+
+<section id="numbers">
+  <h2>The numbers</h2>
+  <p class="muted">Ord. 239 §106: on a lot over 5 acres, up to 7,500 sf of new impervious surface (built since Oct 19, 2020) is exempt from a stormwater site plan and peak-rate controls. Pick a scenario:</p>
   <div class="card">
     <div class="seg" role="group" aria-label="Scenario">
-      <button aria-pressed="true" data-s="A">Driveway is pre-2020</button>
-      <button aria-pressed="false" data-s="B">Driveway is new</button>
-      <button aria-pressed="false" data-s="C">New driveway + slatted deck</button>
+      <button aria-pressed="true" data-s="A">As drawn</button>
+      <button aria-pressed="false" data-s="B">12-ft drive + slatted deck</button>
+      <button aria-pressed="false" data-s="C">10-ft drive only</button>
     </div>
     <div class="bar"><div class="stack" id="stack"></div><div class="limit" id="limit"><span>7,500 sf limit</span></div></div>
     <div class="ticks" id="ticks"></div>
@@ -239,35 +284,78 @@ footer{margin:56px 0 0;padding:24px 0 48px;border-top:1px solid var(--line);font
   </div>
 </section>
 
+<section id="best">
+  <h2>Best practices for this home</h2>
+  <p class="muted">Worth doing whether or not a permit requires it. Each card is tagged: <span class="req law">State law</span> <span class="req twp">Township rule</span> <span class="req rec">Recommended</span></p>
+  <div class="bp">
+    <article><img src="img/bp-silt-fence.jpg" alt="Silt fence below a soil stockpile"><div class="body"><span class="req law">State law · during construction</span><h3>Silt sock or fence below all bare soil</h3>
+      <ul><li>Before digging, run 12–18 in. compost filter sock (or silt fence) along the downhill edge of the work, on the contour</li><li>Turn the ends uphill so water can't run around them</li><li>Ring the topsoil pile and keep it uphill</li><li>Check after every rain. Clean it out when it's half full</li></ul>
+      <div class="credit">Photo: U.S. EPA, public domain</div></div></article>
+    <article><img src="img/bp-ribbon-drive.jpg" alt="Two-track gravel ribbon driveway"><div class="body"><span class="req rec">Recommended · and it helps the exemption</span><h3>Keep the driveway narrow</h3>
+      <ul><li>12 ft is plenty for one house. Every foot narrower saves about 330 sf on this 330-ft drive</li><li>A two-track "ribbon" drive with grass in the middle is the lowest-impact option</li><li>Add broad dips or stone water bars every 75–100 ft to turn runoff onto grass, not into the road</li><li>Keep the culvert at the road clear</li></ul>
+      <div class="credit">Photo: Casimir Kromkowski, CC0</div></div></article>
+    <article><img src="img/bp-downspout.jpg" alt="Downspout extension carrying roof water away from a house"><div class="body"><span class="req twp">Township rule · Ord. 239 §802</span><h3>Downspouts to lawn, not to pipes or the road</h3>
+      <ul><li>Roof leaders must discharge to lawn or vegetated areas, or to infiltration</li><li>Extend each one at least 10 ft from the foundation onto a splash pad or into a rain garden</li><li>Never into the septic, never piped to the road</li><li>Sump and footing drains go to a swale or natural drainage path (lots over 20,000 sf)</li></ul>
+      <div class="credit">Photo: AGreenFutureCalgaryLandscaping, CC BY-SA 4.0</div></div></article>
+    <article><img src="img/bp-rain-garden.jpg" alt="Planted rain garden holding stormwater"><div class="body"><span class="req rec">Recommended</span><h3>A rain garden downhill of the house</h3>
+      <ul><li>A shallow (6 in.) planted dip that catches roof water and lets it soak in</li><li>Rough size for the 1,400 sf house roof: about 230 sf (1 in. of rain)</li><li>Keep it 10–20 ft from the foundation and 25 ft or more from the septic beds and well</li><li>Use native plants, and amend clay soil with compost</li></ul>
+      <div class="credit">Photo: U.S. EPA, public domain</div></div></article>
+    <article><img src="img/bp-epa-nw.jpg" alt="Before and after: lawn converted to a rain garden"><div class="body"><span class="req rec">Recommended</span><h3>Plant, don't pave</h3>
+      <ul><li>Leave as much of the lot in meadow or woods as possible. It soaks up rain for free</li><li>A strip of unmown meadow along the road edge slows runoff and catches sediment</li><li>Seed and mulch bare soil within days, not weeks</li></ul>
+      <div class="credit">Photo: U.S. EPA, public domain</div></div></article>
+    <article><img src="img/bp-rain-barrel.jpg" alt="Rain barrel on a downspout"><div class="body"><span class="req rec">Recommended · cheap</span><h3>Rain barrels for garden water</h3>
+      <ul><li>A 50–60 gal barrel on a garage downspout waters the garden</li><li>Fit a screened lid and route the overflow to lawn or the rain garden</li><li>Empty it before winter</li></ul>
+      <div class="credit">Photo: U.S. EPA, public domain</div></div></article>
+    <article><img src="img/bp-dry-well.jpg" alt="Stone-filled infiltration pit"><div class="body"><span class="req rec">Optional · only if needed</span><h3>Stone dry well for a downspout</h3>
+      <ul><li>A gravel-filled pit (about 3 ft deep) that soaks up roof water where a rain garden won't fit</li><li>At least 20 ft from the foundation. Build it after the site is stabilized</li><li>Needs 18 in. or more above rock or seasonal high water</li></ul>
+      <div class="credit">Photo: SuSanA Secretariat, CC BY 2.0</div></div></article>
+    <article><img src="img/bp-trench.jpg" alt="Stone-lined infiltration trench and swale"><div class="body"><span class="req rec">Optional · if the exemption fails</span><h3>Stone trench along the driveway</h3>
+      <ul><li>A shallow stone-filled trench along the downhill edge of the drive catches and soaks in its runoff</li><li>This is the kind of BMP a small engineered plan would use if needed</li></ul>
+      <div class="credit">Photo: Moreau1, public domain</div></div></article>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>More construction must-dos (state law and township rules)</h3>
+    <ul class="muted" style="margin:6px 0 0;padding-left:18px">
+      <li>Call <b>811</b> (PA One Call) at least 3 business days before digging</li>
+      <li><b>Stone construction entrance</b> (AASHTO #1 stone) where trucks leave the site. Sweep any mud off the road the same day (§310.F)</li>
+      <li><b>Fence off the septic beds</b> with orange fence. No traffic or stockpiles on them, ever</li>
+      <li>Grade <b>6 in. of fall in the first 10 ft</b> away from the foundation</li>
+      <li>Seed and mulch any area left idle more than 4 days. Keep stockpiles under 35 ft high, with 2:1 sides</li>
+      <li>Keep the E&amp;S plan on site, and keep total disturbance under 1 acre</li>
+    </ul>
+  </div>
+</section>
+
 <section id="email">
   <h2>Email to the township</h2>
-  <p class="muted">Fill in the <b>[brackets]</b>, attach the site plan, and send. Bedminster's Land &amp; Municipal Office: 432 Elephant Rd, Perkasie PA 18944 · 215-249-3320 (Mon–Fri 8–4). The zoning officer is at extension 4.</p>
+  <p class="muted">Fill in the <b>[brackets]</b>, attach Sheets 1–2, and send. Bedminster Land &amp; Municipal Office: 432 Elephant Rd, Perkasie PA 18944 · 215-249-3320 (Mon–Fri 8–4). The zoning officer is at extension 4.</p>
   <div class="card email">
-    <div class="btns">
-      <button class="btn primary" id="copy">Copy email</button>
-      <a class="btn" id="mailto" href="#">Open in mail app</a>
-    </div>
-<pre id="email-text">Subject: New single-family dwelling, [Street Address], TMP [01-xxx-xxx]: stormwater exemption question
+    <div class="btns"><button class="btn primary" id="copy">Copy email</button><a class="btn" id="mailto" href="#">Open in mail app</a></div>
+<pre id="email-text">Subject: New single-family dwelling, [Street Address], TMP [parcel #]: stormwater exemption under Ord. 239 §106
 
 Hello,
 
-I'm preparing permit applications for a new single-family home at [Street Address], Tax Map Parcel [01-xxx-xxx], and want to confirm the stormwater path before I submit.
+I'm preparing permit applications for a new single-family home at [Street Address], Tax Map Parcel [parcel #] (approx. 8.48 acres, AP district), and would like to confirm the stormwater path before I submit.
 
-Project summary
-- Lot area: approx. 8.5 acres (from the site survey)
-- New impervious area: house 1,403 sf, future garage 966 sf, deck 1,012 sf = 3,381 sf total
-- Existing gravel driveway, approx. 4,813 sf, in place before October 19, 2020 [attach proof]
-- Nearest new impervious surface is approx. 190 ft from the downslope property line (road frontage); nothing within 100 ft
-- Estimated earth disturbance: approx. 12,000–17,000 sf (under 1 acre). I will keep a written E&S plan on site per 25 Pa. Code §102.4
-- On-lot septic and private well (Bucks County Health Department permits to follow)
+Impervious surface since October 19, 2020 (proposed design)
+- House 1,403 sf
+- Garage 966 sf
+- Gravel driveway, 12 ft wide, approx. 3,950 sf
+- Existing shed approx. 296 sf
+- Deck approx. 1,012 sf, built with gapped decking and no roof over a stone bed, as an infiltration BMP per the §202 definition (not counted)
+- Total counted: approx. 6,615 sf (Table 106.1 limit for lots over 5 acres: 7,500 sf)
+
+Location (Table 106.2): the nearest new impervious surface is approx. 190 ft from the downslope property line (road frontage). Nothing new is within 100 ft. Driveway access is excluded.
+
+Earth disturbance: approx. 24,000 sf (0.56 ac), under 1 acre. A written E&S plan will be kept on site per 25 Pa. Code §102.4 (draft attached). The site drains to Deer Run and Tohickon Creek (CWF; not HQ/EV).
 
 Questions
-1. Does the project qualify for the exemption under Ordinance 239, §106 (Tables 106.1 and 106.2), so that no SWM Site Plan or peak-rate control is required?
-2. Since the gravel driveway predates the ordinance, can you confirm it is excluded from the cumulative impervious total? If it is not, would a slatted deck over a stone bed be treated as a BMP rather than impervious surface?
-3. Do you need the E&S plan reviewed by the Bucks County Conservation District (adequacy letter), or is a plan kept on site sufficient for an exempt project?
-4. Could you send the Stormwater Management Application form and confirm the current fees ($100 application, $500 exemption, $750 escrow per the 2022 schedule)? Are you aware of any drainage problems downstream along the road?
+1. Does this qualify for the §106 exemption, so that no SWM Site Plan or peak-rate control is required?
+2. Will you accept the gapped deck over a stone bed as a BMP that is not counted as impervious? If not, I can narrow the driveway further.
+3. For an exempt project, do you want the E&S plan reviewed by the Bucks County Conservation District, or is a plan kept on site sufficient?
+4. Could you send the Stormwater Management Application form and confirm current fees ($100 application, $500 exemption, $750 escrow per the 2022 schedule)? Are you aware of any downstream drainage concerns along the road?
 
-I've attached the site plan showing the boundary, contours, proposed buildings, and septic test areas. Happy to provide anything else you need.
+Attached: draft exemption plot plan (Sheet 1) and draft E&S plan (Sheet 2).
 
 Thank you,
 [Your Name]
@@ -279,7 +367,7 @@ Thank you,
   <h2>What it should cost</h2>
   <p class="muted">Township fees from Bedminster's 2022 fee schedule, worked out for this house (about 3,180 sf gross floor area including the garage; add the basement if the township counts it). Confirm current amounts with the township.</p>
   <div class="card">
-    <table>
+    <table class="t">
       <thead><tr><th>Item</th><th class="r">Estimate</th></tr></thead>
       <tbody>
         <tr><td>Stormwater: application + exemption fee</td><td class="r">$600</td></tr>
@@ -288,150 +376,91 @@ Thank you,
         <tr><td>Building permit <span class="muted small">($300 + $0.25/sf, plus $75 each for plumbing, HVAC and energy)</span></td><td class="r">≈ $1,320</td></tr>
         <tr><td>Zoning permit <span class="muted small">($60 + $0.12/sf)</span></td><td class="r">≈ $440</td></tr>
         <tr><td>Township sewage management permit <span class="muted small">(+ maintenance escrow; county septic permit separate)</span></td><td class="r">$300+</td></tr>
-        <tr><td>Well drilling permit <span class="muted small">(the schedule also lists a well depletion fund of $1,000 per dwelling, so ask whether it applies)</span></td><td class="r">$75 (+$1,000?)</td></tr>
+        <tr><td>Well drilling permit <span class="muted small">(the schedule also lists a $1,000/dwelling well depletion fund, so ask whether it applies)</span></td><td class="r">$75 (+$1,000?)</td></tr>
         <tr class="total"><td>Stormwater-related total</td><td class="r">≈ $600–850 + refundable escrow</td></tr>
       </tbody>
     </table>
-    <p class="small muted" style="margin-top:12px">Compare: a full engineered stormwater plan with infiltration or detention typically runs several thousand dollars in design, review escrow and construction.</p>
+    <p class="small muted" style="margin-top:12px">If the exemption failed, a small engineered infiltration plan (2-in. capture of ≈8,500 sf, about 1,400 cf of storage) would typically cost several thousand dollars in design, review and stone.</p>
   </div>
 </section>
 
 <section id="details">
   <h2>Details</h2>
-  <p class="muted">Open what you need.</p>
+  <details class="more"><summary>Rules checked, and the answers</summary><div class="in"><ul>
+    <li><b>Ordinance:</b> Bedminster Stormwater Ordinance No. 239 (adopted Oct 14, 2020; effective Oct 19, 2020). Only impervious surface built on or after that date counts</li>
+    <li><b>Table 106.1 (size):</b> lot over 5 acres → 7,500 sf. As drawn 8,503 ✗. With the fix 6,615 ✓</li>
+    <li><b>Table 106.2 (location):</b> ≤5,000 sf within 200 ft, ≤4,000 within 100 ft, none within 10 ft of the downslope line, with driveway access excluded. The buildings sit 100–200 ft from the line ✓</li>
+    <li><b>Impervious definition (§202):</b> decks, parking areas and driveways aren't counted if designed and built as a BMP that promotes infiltration. Gravel isn't addressed separately, so the township decides</li>
+    <li><b>Pervious-paving credit (Appendix J):</b> only for slopes of 1–5%. This driveway is about 8%, so it doesn't qualify</li>
+    <li><b>Stream:</b> Deer Run → Tohickon Creek (CWF, MF) in Chapter 93. Not HQ/EV ✓</li>
+    <li><b>E&amp;S:</b> written plan at 5,000 sf or more of disturbance; NPDES at 1 acre or more. Township E&amp;S approval is required only for non-exempt projects (§310.B)</li>
+    <li><b>Roof and sump drains (§802):</b> apply to everyone, exempt or not</li>
+    <li><b>Zoning:</b> AP district. 8,503 sf is about 2.3% of the lot, far below the impervious ratios listed in the zoning ordinance (6–10% for most uses), but confirm the AP single-family limit</li>
+  </ul></div></details>
 
-  <details class="more" id="es"><summary>What goes in the erosion &amp; sediment plan</summary><div class="in">
-    <ul>
-      <li><b>Limit of disturbance:</b> outline the house, deck, garage, septic bed, utility trench and stockpile area. Keep it compact.</li>
-      <li><b>Silt sock</b> (12–18 in. compost filter sock) along the downhill edge, following the contour</li>
-      <li><b>Stone construction entrance</b> (AASHTO #1 stone) where trucks leave the work area. Sweep up any mud on the road right away</li>
-      <li><b>Topsoil stockpile</b> uphill, ringed with sock, and seeded if it will sit more than a few weeks</li>
-      <li><b>Sequence:</b> sock and entrance → clear and strip → foundation → septic and utilities → final grade → topsoil, seed and mulch → remove the sock at 70% grass cover</li>
-      <li><b>Inspect</b> after every storm and fix anything damaged. Keep a simple log</li>
-    </ul>
-    <p>Why care: the lot drains to a tributary of Tohickon Creek that DEP lists as impaired by siltation. Good erosion control here genuinely matters.</p>
+  <details class="more"><summary>If the exemption still fails: sizing calculator</summary><div class="in">
+    <p>Capture the first 2 in. of runoff from new impervious areas (§303 simplified method). A one-sheet design with a PE stamp.</p>
+    <div class="calc"><div><label for="imp">Area to treat (sf)</label><input id="imp" type="number" min="0" step="50" value="8503"></div><div><label for="dep">Rain garden depth (in.)</label><input id="dep" type="number" min="3" max="12" value="6"></div></div>
+    <div class="out"><div><b id="o1">–</b><span>Runoff to hold (cf)</span></div><div><b id="o2">–</b><span>Stone trench volume (cf)</span></div><div><b id="o3">–</b><span>Rain garden area (sf)</span></div></div>
+    <p class="small" style="margin-top:8px">Volume = area × 2 in. ÷ 12. Stone holds about 40% water. Planning only.</p>
   </div></details>
 
-  <details class="more"><summary>Drainage rules that still apply (even when exempt)</summary><div class="in">
-    <ul>
-      <li><b>Roof drains</b> must discharge to infiltration areas or vegetated areas (lawn, rain garden), never to the street or the sanitary system (§802.A–B)</li>
-      <li><b>Sump pumps and basement drains</b> on lots over 20,000 sf must discharge to a natural watercourse, drainage swale or storm sewer (§802.C)</li>
-      <li>The exemption doesn't excuse measures needed to protect health, safety and property (§106.C). Don't concentrate water onto neighbors or the road</li>
-      <li>Keep downspouts and any infiltration at least 25 ft from the septic beds and the well. Grade 6 in. of fall in the first 10 ft away from the foundation</li>
-    </ul>
-  </div></details>
+  <details class="more"><summary>Who to contact</summary><div class="in"><ul>
+    <li><b>Bedminster Township Land &amp; Municipal Office</b> (zoning, permits, stormwater): 432 Elephant Rd, Perkasie PA 18944 · 215-249-3320 · Mon–Fri 8–4</li>
+    <li><b>Bucks County Conservation District</b> (E&amp;S review, if requested): 1456 Ferry Rd, Suite 704, Doylestown · 215-345-7577</li>
+    <li><b>Bucks County Health Department</b> (septic and well permits)</li>
+    <li><b>PA One Call</b>: 811</li>
+  </ul></div></details>
 
-  <details class="more"><summary>Site layout (schematic)</summary><div class="in sketch">
-    <svg viewBox="0 0 560 330" role="img" aria-label="Schematic: house cluster about 190 ft uphill of the road frontage; septic area to the east; gravel driveway from the road; ground falls about 7 percent toward the road.">
-      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="currentColor"/></marker></defs>
-      <g style="color:var(--text-2)" font-size="12" fill="var(--text-2)">
-        <rect x="30" y="20" width="500" height="240" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="9 5"/>
-        <rect x="30" y="272" width="500" height="34" fill="var(--soft)"/><text x="280" y="294" text-anchor="middle" font-weight="600">Road (downslope property line)</text>
-        <rect x="32" y="190" width="496" height="68" fill="var(--good)" opacity=".08"/><text x="520" y="250" text-anchor="end" fill="var(--good-ink)" font-weight="600">100-ft band: nothing new here</text>
-        <path d="M70 272 C 80 220, 110 175, 170 128" fill="none" stroke="var(--s4)" stroke-width="12" stroke-linecap="round"/>
-        <rect x="170" y="92" width="34" height="32" fill="var(--s2)" rx="3"/><rect x="172" y="126" width="58" height="42" fill="var(--s1)" rx="3"/><rect x="160" y="170" width="62" height="20" fill="var(--s3)" rx="3"/>
-        <text x="238" y="112">Garage</text><text x="238" y="152">House</text><text x="230" y="185">Deck</text>
-        <rect x="330" y="130" width="90" height="34" fill="none" stroke="var(--s3)" stroke-dasharray="4 3"/><text x="330" y="124">Septic areas</text>
-        <line x1="190" y1="194" x2="190" y2="270" stroke="currentColor" stroke-width="1.5" marker-start="url(#ah)" marker-end="url(#ah)"/><text x="198" y="236" font-weight="700" fill="var(--text)">≈ 190 ft</text>
-        <line x1="480" y1="40" x2="480" y2="180" stroke="currentColor" stroke-width="2" marker-end="url(#ah)"/><text x="470" y="110" text-anchor="end">Slopes ≈ 7%</text><text x="470" y="126" text-anchor="end">toward road</text>
-      </g>
-    </svg>
-    <p class="small">Not to scale.</p>
-  </div></details>
-
-  <details class="more" id="fallback"><summary>Not exempt? Cheap fixes, plus a sizing calculator</summary><div class="in">
-    <p>If the driveway is new, the total is 8,194 sf, which is 694 sf over the limit. In order of cost:</p>
-    <ul>
-      <li><b>Slatted deck over a stone bed.</b> Decks built to let water soak in aren't counted (§202). That brings the total to 7,182 sf, under the limit</li>
-      <li><b>Narrow the driveway.</b> Going from about 14.6 ft to 12 ft saves about 850 sf</li>
-      <li><b>Small infiltration plan.</b> Capture the first 2 in. of runoff from new roofs and paving in dry wells, trenches or a rain garden (§303 simplified method). A one-sheet design with a PE stamp</li>
-    </ul>
-    <div class="calc">
-      <div><label for="imp">Area to treat (sf)</label><input id="imp" type="number" min="0" step="50" value="3381"></div>
-      <div><label for="dep">Rain garden depth (in.)</label><input id="dep" type="number" min="3" max="12" value="6"></div>
-    </div>
-    <div class="out"><div><b id="o1">–</b><span>Runoff to hold (cf)</span></div><div><b id="o2">–</b><span>Stone dry-well volume (cf)</span></div><div><b id="o3">–</b><span>Rain garden area (sf)</span></div></div>
-    <p class="small" style="margin-top:8px">Volume = area × 2 in. ÷ 12. Stone holds about 40% water. Planning only: a final design needs the township engineer or a PE.</p>
-  </div></details>
-
-  <details class="more"><summary>What was checked, and the answers</summary><div class="in">
-    <ul>
-      <li><b>Which rules apply:</b> Bedminster Township Stormwater Ordinance No. 239, adopted Oct 14, 2020 and effective Oct 19, 2020. Impervious surface counts only if built on or after that date</li>
-      <li><b>Size test (Table 106.1):</b> lot over 5 acres → 7,500 sf allowed. Proposed: 3,381 sf ✓</li>
-      <li><b>Location test (Table 106.2):</b> no more than 5,000 sf within 200 ft of the downslope line, 4,000 within 100 ft, and none within 10 ft. Driveway access is excluded. All 3,381 sf sits 100–200 ft from the line ✓</li>
-      <li><b>Stream status:</b> the lot drains to a tributary of Tohickon Creek, which Chapter 93 lists as Cold Water Fishes (CWF). It is not High Quality or Exceptional Value, so no extra volume rules apply ✓</li>
-      <li><b>State permits:</b> a written E&amp;S plan is required at 5,000 sf or more of disturbance. An NPDES permit is required only at 1 acre or more ✓</li>
-      <li><b>E&amp;S approval:</b> the township must approve E&amp;S plans only for non-exempt projects (§310.B). Exempt projects still keep the state-required plan on site (§310.C, E)</li>
-      <li><b>Fees:</b> stormwater application $100, exemption $500 and escrow $750 (2022 schedule) ✓</li>
-      <li><b>Still to confirm:</b> the driveway date, the township's reading of the gravel drive and deck, whether they want county E&amp;S review, and current fees</li>
-    </ul>
-  </div></details>
-
-  <details class="more"><summary>Who to contact</summary><div class="in">
-    <ul>
-      <li><b>Bedminster Township Land &amp; Municipal Office</b> (zoning, permits, stormwater): 432 Elephant Rd, Perkasie PA 18944 · 215-249-3320 · Mon–Fri 8–4</li>
-      <li><b>Bucks County Conservation District</b> (E&amp;S review, if requested): 1456 Ferry Rd, Suite 704, Doylestown · 215-345-7577</li>
-      <li><b>Bucks County Health Department</b> (septic and well permits)</li>
-      <li><b>PA One Call</b>: dial 811 at least 3 business days before digging</li>
-    </ul>
-  </div></details>
-
-  <details class="more"><summary>Sources</summary><div class="in">
-    <ul>
-      <li><a href="https://bedminsterpa.com/wp-content/uploads/2015/10/SWM-final-version-2021.pdf">Bedminster Stormwater Management Ordinance No. 239</a>: §105–106, §202, §303, §310, §802</li>
-      <li><a href="https://codelibrary.amlegal.com/codes/bedminstertwppa/latest/bedminstertwp_pa/0-0-0-9030">Bedminster Code, Appendix I: simplified procedure for single-family lots</a></li>
-      <li><a href="http://bedminsterpa.com/wp-content/uploads/2022/01/2022-Fee-Schedule.pdf">Bedminster 2022 Fee Schedule (Resolution 2022-05)</a></li>
-      <li><a href="https://www.law.cornell.edu/regulations/pennsylvania/25-Pa-Code-SS-102-4">25 Pa. Code §102.4: erosion and sediment control</a></li>
-      <li><a href="https://regulations.justia.com/states/pennsylvania/title-25/part-i/subpart-c/article-ii/chapter-93/designated-water-uses-and-water-quality-criteria/section-93-9e">25 Pa. Code §93.9e: Tohickon Creek designated uses</a></li>
-      <li><a href="https://bucksccd.org/permitting-document/projects-under-one-acre/">Bucks County Conservation District: projects under one acre</a> · <a href="https://bucksccd.org/wp-content/uploads/2026/05/Fee-Schedule-5-22-26-pdf.pdf">fee schedule</a></li>
-      <li><a href="https://bedminsterpa.com/building-zoning">Bedminster building &amp; zoning page</a></li>
-    </ul>
-  </div></details>
+  <details class="more"><summary>Sources &amp; data</summary><div class="in"><ul>
+    <li><a href="https://bedminsterpa.com/wp-content/uploads/2015/10/SWM-final-version-2021.pdf">Bedminster Stormwater Management Ordinance No. 239</a>: §105–106, §202, §303, §310, §802</li>
+    <li><a href="http://bedminsterpa.com/wp-content/uploads/2022/01/2022-Fee-Schedule.pdf">Bedminster 2022 Fee Schedule (Resolution 2022-05)</a></li>
+    <li><a href="https://codelibrary.amlegal.com/codes/bedminstertwppa/latest/bedminstertwp_pa/0-0-0-9030">Bedminster Appendix I</a> · <a href="https://codelibrary.amlegal.com/codes/bedminstertwppa/latest/bedminstertwp_pa/0-0-0-9115">Appendix J</a></li>
+    <li><a href="https://www.law.cornell.edu/regulations/pennsylvania/25-Pa-Code-SS-102-4">25 Pa. Code §102.4</a> · <a href="https://regulations.justia.com/states/pennsylvania/title-25/part-i/subpart-c/article-ii/chapter-93/designated-water-uses-and-water-quality-criteria/section-93-9e">25 Pa. Code §93.9e</a></li>
+    <li><a href="https://bucksccd.org/permitting-document/projects-under-one-acre/">Bucks County Conservation District: projects under one acre</a></li>
+    <li>Data: Bucks County parcels, zoning, steep slopes and roads via <a href="https://www.pasda.psu.edu/">PASDA</a>. Streams from USGS NHD and WBD. Aerials from Esri World Imagery Wayback (Microsoft 2011, Maxar 2017, Vantor 2025). Contours from PAMAP LiDAR on the owner's survey</li>
+    <li>Photos from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>: U.S. EPA (public domain); Casimir Kromkowski (CC0); <a href="https://commons.wikimedia.org/wiki/File:Calgary-Yard-Drainage-downspout-extension-landscaping-calgary-solution-drainage-front-back-yard.jpg">AGreenFutureCalgaryLandscaping (CC BY-SA 4.0)</a>; <a href="https://commons.wikimedia.org/wiki/File:Puits_d'infiltration_(soak_pit)_(13587045355).jpg">SuSanA Secretariat (CC BY 2.0)</a>; Moreau1 (public domain)</li>
+  </ul></div></details>
 </section>
+</main>
 
-<footer>
-  <b>Planning guidance, not a sealed engineering design.</b> Areas come from the owner's survey and drawings, and disturbance is estimated. Ordinances and fees change, so confirm with Bedminster Township before filing. Updated November 2026.
+<footer class="wrap">
+  <b>Planning guidance, not a sealed engineering design or survey.</b> Areas come from the owner's survey and drawings. Disturbance and map alignment are estimates. Ordinances and fees change, so confirm with Bedminster Township before filing. Updated November 2026.
 </footer>
-</div>
 
 <div class="tip" id="tip"></div>
 <script>
 (function(){
   var fmt=function(n){return n.toLocaleString('en-US')};
-  var items=[{k:'house',n:'House',sf:1403,c:'var(--s1)'},{k:'garage',n:'Garage',sf:966,c:'var(--s2)'},{k:'deck',n:'Deck',sf:1012,c:'var(--s3)'},{k:'drive',n:'Driveway',sf:4813,c:'var(--s4)'}];
+  var items=[{k:'house',n:'House',c:'var(--s1)'},{k:'garage',n:'Garage',c:'var(--s2)'},{k:'deck',n:'Deck',c:'var(--s3)'},{k:'drive',n:'Driveway',c:'var(--s4)'},{k:'shed',n:'Shed',c:'var(--s5)'}];
   var MAX=9000, LIM=7500;
-  var on={A:{house:1,garage:1,deck:1,drive:0},B:{house:1,garage:1,deck:1,drive:1},C:{house:1,garage:1,deck:0,drive:1}};
-  var msg={
-    A:function(t){return '<b>Exempt.</b> '+fmt(t)+' sf counts, '+fmt(LIM-t)+' sf under the limit. The pre-2020 driveway is excluded.'},
-    B:function(t){return '<b>'+fmt(t-LIM)+' sf over.</b> '+fmt(t)+' sf counts. Fix it with a slatted deck or a narrower driveway (see "Not exempt?" below).'},
-    C:function(t){return '<b>Exempt.</b> '+fmt(t)+' sf counts. A slatted deck over stone isn\'t impervious, which puts the total '+fmt(LIM-t)+' sf under the limit.'}
-  };
-  var stack=document.getElementById('stack'), res=document.getElementById('result'), tip=document.getElementById('tip');
+  var sc={A:{house:1403,garage:966,deck:1012,drive:4826,shed:296},B:{house:1403,garage:966,deck:0,drive:3950,shed:296},C:{house:1403,garage:966,deck:1012,drive:3290,shed:296}};
+  var msg={A:'As drawn: <b>{t} sf</b>, which is <b>{d} sf over</b> the limit. A stormwater site plan would be required.',
+           B:'<b>Exempt.</b> {t} sf counts ({d} sf under). A 12-ft driveway, plus a gapped deck over stone that isn\'t counted.',
+           C:'<b>Exempt.</b> {t} sf counts ({d} sf under). A 10-ft driveway with a regular deck.'};
+  var stack=document.getElementById('stack'),res=document.getElementById('result'),tip=document.getElementById('tip');
   document.getElementById('limit').style.left=(LIM/MAX*100)+'%';
-  var tk=document.getElementById('ticks');
-  [0,2000,4000,6000,8000].forEach(function(v){var s=document.createElement('span');s.style.left=(v/MAX*100)+'%';s.textContent=v?fmt(v):'0 sf';tk.appendChild(s)});
+  var tk=document.getElementById('ticks');[0,2000,4000,6000,8000].forEach(function(v){var s=document.createElement('span');s.style.left=(v/MAX*100)+'%';s.textContent=v?fmt(v):'0 sf';tk.appendChild(s)});
   var lg=document.getElementById('legend');
-  items.forEach(function(i){var e=document.createElement('span');e.innerHTML='<i style="background:'+i.c+'"></i>'+i.n+' '+fmt(i.sf)+' sf';lg.appendChild(e)});
   function draw(s){
-    stack.innerHTML=''; var t=0;
-    items.forEach(function(i){ if(!on[s][i.k]) return; t+=i.sf;
-      var d=document.createElement('div'); d.className='s'; d.style.background=i.c; d.style.width=(i.sf/MAX*100)+'%'; d.tabIndex=0;
-      d.dataset.tip=i.n+': '+fmt(i.sf)+' sf'; d.setAttribute('aria-label',d.dataset.tip); stack.appendChild(d);});
-    res.className='result '+(t<=LIM?'ok':'no'); res.innerHTML=msg[s](t);
+    stack.innerHTML='';lg.innerHTML='';var t=0;
+    items.forEach(function(i){var v=sc[s][i.k];var e=document.createElement('span');e.innerHTML='<i style="background:'+i.c+'"></i>'+i.n+' '+(v?fmt(v)+' sf':'not counted');lg.appendChild(e);
+      if(!v)return;t+=v;var d=document.createElement('div');d.className='s';d.style.background=i.c;d.style.width=(v/MAX*100)+'%';d.tabIndex=0;d.dataset.tip=i.n+': '+fmt(v)+' sf';d.setAttribute('aria-label',d.dataset.tip);stack.appendChild(d)});
+    res.className='result '+(t<=LIM?'ok':'no');res.innerHTML=msg[s].replace('{t}',fmt(t)).replace('{d}',fmt(Math.abs(LIM-t)));
   }
   document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw(b.dataset.s)}});
   draw('A');
   document.addEventListener('mousemove',function(e){var el=e.target.closest&&e.target.closest('[data-tip]');if(el){tip.textContent=el.dataset.tip;tip.style.opacity=1;tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-36)+'px'}else tip.style.opacity=0});
-  var KEY='swm-steps-v2', st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  var KEY='swm-steps-v3',st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
   document.querySelectorAll('.step').forEach(function(li){var cb=li.querySelector('input');cb.checked=!!st[li.dataset.k];li.classList.toggle('done',cb.checked);
     cb.onchange=function(){st[li.dataset.k]=cb.checked;li.classList.toggle('done',cb.checked);try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}});
   var txt=document.getElementById('email-text').textContent;
-  var subj=txt.split('\n')[0].replace(/^Subject:\s*/,''), body=txt.split('\n').slice(2).join('\n');
+  var subj=txt.split('\n')[0].replace(/^Subject:\s*/,''),body=txt.split('\n').slice(2).join('\n');
   document.getElementById('mailto').href='mailto:?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
   var cp=document.getElementById('copy');
   cp.onclick=function(){var done=function(){cp.textContent='Copied ✓';setTimeout(function(){cp.textContent='Copy email'},1800)};
-    function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById('email-text'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');done()}catch(e){}}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback)}else fallback();};
+    function fb(){var r=document.createRange();r.selectNodeContents(document.getElementById('email-text'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');done()}catch(e){}}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb)}else fb()};
   function calc(){var a=+document.getElementById('imp').value||0,d=+document.getElementById('dep').value||6,v=a*2/12;
     document.getElementById('o1').textContent=fmt(Math.round(v));document.getElementById('o2').textContent=fmt(Math.round(v/0.4));document.getElementById('o3').textContent=fmt(Math.round(v/(d/12)))}
   ['imp','dep'].forEach(function(id){document.getElementById(id).oninput=calc});calc();
